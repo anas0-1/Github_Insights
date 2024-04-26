@@ -1,5 +1,5 @@
 const moment = require('moment');
-
+import Chart from 'chart.js';
 
 document.addEventListener("DOMContentLoaded", function() {
     const username = 'anas0-1';
@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
 }
     // keyup calling the handleSearchInput function
     searchInput.addEventListener("keyup", handleSearchInput);
+    
     // Fetch repositories of the default user
     async function displayDefaultUserRepos() {
     const defaultUsername = "anas0-1";
@@ -116,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 }
     window.addEventListener('load', displayDefaultUserRepos);
+    
     // Fetch repositories for the clicked user
     searchResults.addEventListener("click", async function(event) {
     try {
@@ -146,12 +148,10 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Error fetching user repositories:", error);
     }
 });
-
+    // Fetch clicked user infos and bio
     searchResults.addEventListener("click", async function(event) {
-    // Get the username from the clicked div
     const username = event.target.textContent.trim();
 
-    // Fetch user information from GitHub API
     try {
         const response = await fetch(`https://api.github.com/users/${username}`);
         const userData = await response.json();
@@ -178,13 +178,30 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Error fetching user information:", error);
     }
 });
+    // number of repos of the clicked user
+searchResults.addEventListener("click", async function(event) {
+    const username = event.target.textContent.trim();
 
+    try {
+        // Get the number of repositories for the user
+        const reposResponse = await fetch(`https://api.github.com/users/${username}/repos`);
+        const reposData = await reposResponse.json();
+        const numberOfRepos = reposData.length;
+
+        const numberOfReposElement = document.getElementById("numberOfRepos");
+        numberOfReposElement.textContent = `Number of Repos: ${numberOfRepos}`;
+
+    } catch (error) {
+        console.error("Error fetching user information:", error);
+    }
 });
 
+});
+// arrow top
 document.getElementById('back-to-top').addEventListener('click', function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
-  
+  // singlle page handle
   const toggleButton = document.getElementById('toggleButton');
     const section1 = document.getElementById('_section');
     const section2 = document.getElementById('cards_section');
@@ -194,3 +211,4 @@ document.getElementById('back-to-top').addEventListener('click', function() {
         section1.classList.toggle('hidden');
         section2.classList.toggle('hidden');
     });
+ 

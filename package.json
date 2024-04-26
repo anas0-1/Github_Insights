@@ -13,6 +13,7 @@
     "webpack": "^5.91.0"
   },
   "dependencies": {
+    "chart.js": "^4.4.2",
     "lodash": "^4.17.21",
     "moment": "^2.30.1"
   }
